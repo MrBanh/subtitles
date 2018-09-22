@@ -4,11 +4,19 @@
 #               english subtitle
 
 from selenium import webdriver
+import os
 
 movie = "Deadpool 2"
 languageFilter = "English"
 
-browser = webdriver.Chrome()
+# Obtain user desktop as the directory to download files to
+desktop = os.path.join(os.environ['USERPROFILE'], 'Desktop')
+options = webdriver.ChromeOptions()
+prefs = {'download.default_directory': desktop}
+options.add_experimental_option('prefs', prefs)
+
+# Starts the chrome browser
+browser = webdriver.Chrome(chrome_options=options)
 browser.get('https://www.yify-subtitles.com/')
 searchBar = browser.find_element_by_id('qSearch')   # Select the search bar
 searchBar.send_keys(movie)  # type to the search bar
