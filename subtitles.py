@@ -5,6 +5,7 @@
 
 from selenium import webdriver
 import os
+from unzip import unzip
 
 movie = "Deadpool 2"
 languageFilter = "English"
@@ -65,13 +66,13 @@ for subElem in allSubsElem:
     if lang == languageFilter:
         subId = subElem.get_attribute('data-id')   # data-id of each subtitle
         rating = int(subElem.find_element_by_css_selector('.rating-cell').text) # rating of subtitle
-        downloadLink = subElem.find_element_by_css_selector('a').get_attribute('href')  # download link element
+        toDownloadPage = subElem.find_element_by_css_selector('a').get_attribute('href')  # subtitle's download page link
 
         # Stores subtitles in a dictionary
         filteredSubs[subId] = {
             'language': lang,
             'rating': rating,
-            'link': downloadLink
+            'downloadPage': toDownloadPage
             }
 
 # Give user an error if subtitles for the language is not available
@@ -90,12 +91,18 @@ for subId in filteredSubs.keys():
             highestRated = subId
 
 # Open the highest rated link
-browser.get(filteredSubs[highestRated]['link'])
+browser.get(filteredSubs[highestRated]['downloadPage'])
 
 # Download the subtitle file
-clickToDownload = browser.find_element_by_link_text('DOWNLOAD SUBTITLE')
+clickToDownload = browser.find_element_by_partial_link_text('DOWNLOAD SUBTITLE')    # select the <a> element to download subtitle
+filename = os.path.basename(clickToDownload.get_attribute('href'))  # Obtain name of zip file based on download link
 clickToDownload.click()
 
+# Unzip the file
+unzip(desktop, filename)
+
+# Close the browser
+browser.quit()
+exit()
+
 # TODO: Implement the ability to search for movie subtitles via command prompt
-# TODO: Unzip the file (different python script)
-# TODO: Send the zip file to trash (different python script)
