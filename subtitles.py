@@ -9,7 +9,8 @@ import os
 movie = "Deadpool 2"
 languageFilter = "English"
 
-desktop = os.path.join(os.environ['USERPROFILE'], 'Desktop')
+# Obtain user's desktop directory and set it as the directory where the file will be downloaded to
+desktop = os.path.join(os.environ['USERPROFILE'], 'Desktop\\')
 options = webdriver.ChromeOptions()
 prefs = {'download.default_directory': desktop}
 options.add_experimental_option('prefs', prefs)
