@@ -84,7 +84,10 @@ for subId in filteredSubs.keys():
 # Open the highest rated link
 browser.get(filteredSubs[highestRated]['link'])
 
-# TODO: Download the subtitle file
+# Download the subtitle file
+clickToDownload = browser.find_element_by_link_text('DOWNLOAD SUBTITLE')
+clickToDownload.click()
+
 # TODO: Implement the ability to search for movie subtitles via command prompt
 # TODO: Unzip the file (different python script)
 # TODO: Send the zip file to trash (different python script)
