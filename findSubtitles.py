@@ -95,6 +95,8 @@ def findSubtitles(movie, languageFilter='English'):
     clickToDownload.click()
 
     # Unzip the file
+    import time
+    time.sleep(1)
     unzip(desktop, filename)
 
     # Close the browser
