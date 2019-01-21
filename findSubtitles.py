@@ -17,7 +17,10 @@ def findSubtitles(movie, languageFilter='English'):
     browser.get(f'https://www.yify-subtitles.com/search?q={movie}')
 
     # Gather all search results that match the movie that the user searched for
-    movieLinks = browser.find_elements_by_css_selector('a div h3[itemprop="name"]')
+    movieLinks = browser.find_elements_by_css_selector('.media-list .media.media-movie-clickable')
+    # for link in clickable_movie:
+    #     print(link.find_element_by_css_selector('h3[itemprop="name"]').text)
+    # movieLinks = browser.find_elements_by_css_selector('a div h3[itemprop="name"]')
 
     if len(movieLinks) == 0:
         # Did not find subtitles for movie
@@ -32,7 +35,9 @@ def findSubtitles(movie, languageFilter='English'):
         # Multiple results for movie searched. List out each result for user to select from
         print(f'Results found for "{movie}" keyword:')
         for i in range(len(movieLinks)):
-            print(f'\t{str(i + 1) + ".":<3}', movieLinks[i].text)
+            movie_name = movieLinks[i].find_element_by_css_selector('h3[itemprop="name"]').text
+            movie_year = movieLinks[i].find_element_by_css_selector('.movinfo-section').text[0:4]
+            print(f'\t{str(i + 1) + ".":<3} {movie_name} ({movie_year})')
         print()
 
         while True:
@@ -92,13 +97,16 @@ def findSubtitles(movie, languageFilter='English'):
     # Download the subtitle file
     clickToDownload = browser.find_element_by_partial_link_text('DOWNLOAD SUBTITLE')    # select the <a> element to download subtitle
     filename = os.path.basename(clickToDownload.get_attribute('href'))  # Obtain name of zip file based on download link
+    print('Downloading subtitles...')
     clickToDownload.click()
 
     # Unzip the file
     import time
     time.sleep(1)
+    print('Unzipping zipped file...')
     unzip(desktop, filename)
 
     # Close the browser
+    print('Done!')
     browser.quit()
     exit()
