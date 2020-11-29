@@ -17,7 +17,7 @@ def find_subs(movie, language_filter='English'):
 
     # Starts the chrome browser
     browser = webdriver.Chrome(chrome_options=options)
-    browser.get(f'https://www.yify-subtitles.com/search?q={movie}')
+    browser.get(f'https://yts-subs.com/search/{movie}')
 
     # Gather all search results that match the movie searched for
     search_results = browser.find_elements_by_css_selector('.media-list \

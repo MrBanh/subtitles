@@ -1,6 +1,6 @@
 #! python3
 
-# subtitles.py - Search https://www.yify-subtitles.com/
+# subtitles.py - Search https://yts-subs.com/
 #               Downloads the highest rated subtitle (based on language
 #               specified, default is English)
 #               Unzips the downloaded zipped file and
